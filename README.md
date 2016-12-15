@@ -19,28 +19,28 @@ TCL 7.2 is provided on an ISO image only bootable from BIOS :
 
 ```bash
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
-
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
 
 # TCL displays its start menu :-)
-```
-```bash
+
+
 qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -snapshot
 
 # no bootable device :-(
-```
-```bash
-# nightly builds UEFI firmware can be found @ https://www.kraxel.org/repos/jenkins/edk2/
 
+
+# nightly builds UEFI firmware can be found @ https://www.kraxel.org/repos/jenkins/edk2/
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -bios OVMF-pure-efi.fd -snapshot
 
 # no bootable device :-(
-```
-```bash
+
+
 qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios OVMF-pure-efi.fd -snapshot
 
 # no bootable device :-(
 ```
+
+The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UEFI from the TCL ISO image.
 
 
 
