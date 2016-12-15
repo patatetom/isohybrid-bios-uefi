@@ -13,13 +13,13 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 > *The ISO hybrid feature enhances ISO 9660 file system by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.* [»](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 
  
-TCL 7.2 ([Tiny Core Linux](http://tinycorelinux.net/)), a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK, is provided on a small ISO image only bootable from BIOS :
+[Core](http://tinycorelinux.net/) 7.2, a minimal Linux operating system focusing on providing a base system using BusyBox, is provided on a small ISO image only bootable from BIOS :
 
 ```makefile
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
 
-# TCL displays its start menu :-)
+# Core displays its start menu :-)
 
 
 qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -snapshot
@@ -38,7 +38,7 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios OVMF-pure-efi.fd -
 # no bootable device :-(
 ```
 
-The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UEFI from the TCL ISO image.
+The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UEFI from the Core ISO image.
 
 
 
@@ -48,10 +48,10 @@ The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UE
 First, we extract files from TCL ISO image :
 
 ```make
-7z x Core-7.2.iso -osources
+7z x Core-7.2.iso -oCore
 
-tree sources/
-sources/
+tree Core/
+Core/
 ├── [BOOT]
 │   └── Boot-NoEmul.img
 └── boot
@@ -71,12 +71,12 @@ sources/
 Next, we remove unnecessry files and move `isolinux` folder at the root :
 
 ```make
-rm -rf sources/\[BOOT\]/
+rm -rf Core/\[BOOT\]/
 
-mv sources/boot/isolinux/ sources/
+mv Core/boot/isolinux/ Core/
 
-tree sources/
-sources/
+tree Core/
+Core/
 ├── boot
 │   ├── core.gz
 │   └── vmlinuz
@@ -101,27 +101,27 @@ sources/
 First, we override the embedded bootloader with our current one and add `ldlinux.c32` :
 
 ```make
-cp /lib/syslinux/bios/isolinux.bin sources/isolinux/
-cp: overwrite 'sources/isolinux/isolinux.bin'? y
+cp /lib/syslinux/bios/isolinux.bin Core/isolinux/
+cp: overwrite 'Core/isolinux/isolinux.bin'? y
 
-cp /lib/syslinux/bios/ldlinux.c32 sources/isolinux/
+cp /lib/syslinux/bios/ldlinux.c32 Core/isolinux/
 ```
 
 
 Next, we build our first ISO image bootable from BIOS and test it with qemu :
 
 ```make
-# this symlink is just for shell complation with mkisofs
-ln -s sources/isolinux/
+# this symlink is just for shell complation with mkisofs ;-)
+ln -s Core/isolinux/
 
-mkisofs -o test.iso \
+mkisofs -o Core.iso \
   -b isolinux/isolinux.bin -c isolinux/boot.cat \
   -no-emul-boot -boot-load-size 4 -boot-info-table \
-  sources/
+  Core/
 
-qemu -enable-kvm -m 2048 -machine q35 -cdrom test.iso -snapshot
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 
-# TCL displays its start menu :-)
+# Core displays its start menu :-)
 ```
 
 
