@@ -12,10 +12,8 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 
 > *The ISO hybrid feature enhances ISO 9660 file system by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.* [»](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 
-
-[Tiny Core Linux](http://tinycorelinux.net/) (TCL) is a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK.
-
-TCL 7.2 is provided on an ISO image only bootable from BIOS :
+ 
+TCL 7.2 ([Tiny Core Linux](http://tinycorelinux.net/)), a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK, is provided on a small ISO image only bootable from BIOS :
 
 ```bash
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
@@ -41,6 +39,55 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios OVMF-pure-efi.fd -
 ```
 
 The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UEFI from the TCL ISO image.
+
+
+
+## Tree
+
+
+First, we extract files from TCL ISO image :
+
+```bash
+7z x Core-7.2.iso -osources
+
+tree sources/
+sources/
+├── [BOOT]
+│   └── Boot-NoEmul.img
+└── boot
+    ├── core.gz
+    ├── isolinux
+    │   ├── boot.cat
+    │   ├── boot.msg
+    │   ├── f2
+    │   ├── f3
+    │   ├── f4
+    │   ├── isolinux.bin
+    │   └── isolinux.cfg
+    └── vmlinuz
+```
+
+
+Next, we remove unnecessry files :
+
+```bash
+rm -rf sources/\[BOOT\]/
+mv sources/boot/isolinux/ sources/
+
+tree sources/
+sources/
+├── boot
+│   ├── core.gz
+│   └── vmlinuz
+└── isolinux
+    ├── boot.cat
+    ├── boot.msg
+    ├── f2
+    ├── f3
+    ├── f4
+    ├── isolinux.bin
+    └── isolinux.cfg
+```
 
 
 
