@@ -68,7 +68,7 @@ sources/
 ```
 
 
-Next, we remove unnecessry files :
+Next, we remove unnecessry files and move `isolinux` folder at the root :
 
 ```bash
 rm -rf sources/\[BOOT\]/
@@ -91,10 +91,34 @@ sources/
 
 
 
-## Isolinux
+## BIOS side
 
 
 > *ISOLINUX is a boot loader for Linux/i386 that operates off ISO 9660/El Torito CD-ROMs in "no emulation" mode. This avoids the need to create an "emulation disk image" with limited space (for "floppy emulation") or compatibility problems (for "hard disk emulation").* [»](http://www.syslinux.org/wiki/index.php?title=ISOLINUX)
+
+
+First, we override the embedded bootloader with our current one and add `ldlinux.c32` :
+
+```bash
+cp /lib/syslinux/bios/isolinux.bin sources/isolinux/
+cp: overwrite 'sources/isolinux/isolinux.bin'? y
+
+cp /lib/syslinux/bios/ldlinux.c32 sources/isolinux/
+```
+
+
+Next, we build our first ISO image bootable from BIOS and test it with qemu :
+
+```bash
+# this symlink is just for shell complation with mkisofs
+ln -s sources/isolinux/
+
+mkisofs -o test.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table sources/
+
+qemu -enable-kvm -m 2048 -machine q35 -cdrom test.iso -snapshot
+
+# TCL displays its start menu :-)
+```
 
 
 
