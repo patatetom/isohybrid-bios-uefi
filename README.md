@@ -13,7 +13,15 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 > *The ISO hybrid feature enhances ISO 9660 file system by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.* [»](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 
 
-[Tiny Core Linux](http://tinycorelinux.net/) (eg. TCL) is a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK. TCL 7.2 is provided on an ISO image only bootable from BIOS.
+[Tiny Core Linux](http://tinycorelinux.net/) (TCL) is a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK.
+
+TCL 7.2 is provided on an ISO image only bootable from BIOS :
+
+```bash
+# modprobe kvm-intel or modprobe kvm-amd
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso
+```
+
 
 
 ## Links
