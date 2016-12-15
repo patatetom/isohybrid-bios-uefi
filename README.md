@@ -15,7 +15,7 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
  
 TCL 7.2 ([Tiny Core Linux](http://tinycorelinux.net/)), a minimal Linux operating system focusing on providing a base system using BusyBox and FLTK, is provided on a small ISO image only bootable from BIOS :
 
-```bash
+```makefile
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
 
@@ -47,7 +47,7 @@ The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UE
 
 First, we extract files from TCL ISO image :
 
-```bash
+```make
 7z x Core-7.2.iso -osources
 
 tree sources/
@@ -70,8 +70,9 @@ sources/
 
 Next, we remove unnecessry files and move `isolinux` folder at the root :
 
-```bash
+```make
 rm -rf sources/\[BOOT\]/
+
 mv sources/boot/isolinux/ sources/
 
 tree sources/
@@ -99,7 +100,7 @@ sources/
 
 First, we override the embedded bootloader with our current one and add `ldlinux.c32` :
 
-```
+```make
 cp /lib/syslinux/bios/isolinux.bin sources/isolinux/
 cp: overwrite 'sources/isolinux/isolinux.bin'? y
 
@@ -109,7 +110,7 @@ cp /lib/syslinux/bios/ldlinux.c32 sources/isolinux/
 
 Next, we build our first ISO image bootable from BIOS and test it with qemu :
 
-```
+```make
 # this symlink is just for shell complation with mkisofs
 ln -s sources/isolinux/
 
