@@ -91,10 +91,18 @@ sources/
 
 
 
+## Isolinux
+
+
+> *ISOLINUX is a boot loader for Linux/i386 that operates off ISO 9660/El Torito CD-ROMs in "no emulation" mode. This avoids the need to create an "emulation disk image" with limited space (for "floppy emulation") or compatibility problems (for "hard disk emulation").* [»](http://www.syslinux.org/wiki/index.php?title=ISOLINUX)
+
+
+
 ## Links
 
 
 - [https://en.wikipedia.org/wiki/ISO_image](https://en.wikipedia.org/wiki/ISO_image)
 - [http://www.syslinux.org/wiki/index.php?title=Isohybrid](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 - [https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard)](https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard))
+- [http://www.syslinux.org/wiki/index.php?title=ISOLINUX](http://www.syslinux.org/wiki/index.php?title=ISOLINUX)
 - [http://www.rodsbooks.com/gdisk/hybrid.html](http://www.rodsbooks.com/gdisk/hybrid.html)
