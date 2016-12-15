@@ -139,10 +139,14 @@ qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 # Core displays its start menu :-)
 
 # starting qemu with Core ISO image as hard disk under BIOS firmware
-qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
+qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 
 # Core displays its start menu :-)
 ```
+
+
+
+## UEFI side
 
 
 
