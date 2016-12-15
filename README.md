@@ -17,22 +17,25 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 
 ```makefile
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
+
+# starting qemu with Core ISO image as cdrom under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
 
 # Core displays its start menu :-)
 
-
+# starting qemu with Core ISO image as hard disk under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -snapshot
 
 # no bootable device :-(
 
-
 # nightly builds UEFI firmware can be found @ https://www.kraxel.org/repos/jenkins/edk2/
+
+# starting qemu with Core ISO image as cdrom under UEFI firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -bios uefi.fd -snapshot
 
 # no bootable device :-(
 
-
+# starting qemu with Core ISO image as hard disk under UEFI firmware
 qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios uefi.fd -snapshot
 
 # no bootable device :-(
@@ -119,6 +122,23 @@ mkisofs -o Core.iso \
   -no-emul-boot -boot-load-size 4 -boot-info-table \
   Core/
 
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
+
+# Core displays its start menu :-)
+```
+
+
+Now, we enhance the ISO image with the isohybrid feature to be able to boot Core from a USB flash drive :
+
+```make
+isohybrid Core.iso
+
+# starting qemu with Core ISO image as cdrom under BIOS firmware
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
+
+# Core displays its start menu :-)
+
+# starting qemu with Core ISO image as hard disk under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 
 # Core displays its start menu :-)
