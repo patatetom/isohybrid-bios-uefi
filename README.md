@@ -13,7 +13,7 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 > *The ISO hybrid feature enhances ISO 9660 file system by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.* [»](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 
  
-[Core](http://tinycorelinux.net/) 7.2, a minimal Linux operating system focusing on providing a base system using BusyBox, is provided on a small ISO image only bootable from BIOS :
+[Core Linux](http://tinycorelinux.net/) 7.2, a minimal Linux operating system focusing on providing a base system using BusyBox, is provided on a small ISO image only bootable from BIOS :
 
 ```makefile
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
