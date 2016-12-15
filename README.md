@@ -28,12 +28,12 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -snapshot
 
 
 # nightly builds UEFI firmware can be found @ https://www.kraxel.org/repos/jenkins/edk2/
-qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -bios OVMF-pure-efi.fd -snapshot
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -bios uefi.fd -snapshot
 
 # no bootable device :-(
 
 
-qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios OVMF-pure-efi.fd -snapshot
+qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -bios uefi.fd -snapshot
 
 # no bootable device :-(
 ```
