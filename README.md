@@ -7,6 +7,8 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 
 > *Universal Disk Format (UDF) is a profile of the specification known as ISO/IEC 13346 and ECMA-167 and is an open vendor-neutral file system for computer data storage for a broad range of media. In practice, it has been most widely used for DVDs and newer optical disc formats, supplanting ISO 9660.* [»](https://en.wikipedia.org/wiki/Universal_Disk_Format)
 
+> *The El Torito Bootable CD Specification is an extension to the ISO 9660 CD-ROM specification. It is designed to allow a computer to boot from a CD-ROM.* [»](https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard))
+
 > *The ISO hybrid feature enhances ISO 9660 file system by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.* [»](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 
 
@@ -16,4 +18,5 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 
 - [https://en.wikipedia.org/wiki/ISO_image](https://en.wikipedia.org/wiki/ISO_image)
 - [http://www.syslinux.org/wiki/index.php?title=Isohybrid](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
+- [https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard)](https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard))
 - [http://www.rodsbooks.com/gdisk/hybrid.html](http://www.rodsbooks.com/gdisk/hybrid.html)
