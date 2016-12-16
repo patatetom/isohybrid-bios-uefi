@@ -16,6 +16,12 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 [Core Linux](http://tinycorelinux.net/) 7.2, a minimal Linux operating system focusing on providing a base system using BusyBox, is provided on a small ISO image only bootable from BIOS :
 
 ```makefile
+stat -c%s Core-7.2.iso 
+11116544
+
+md5sum Core-7.2.iso 
+77bf8cceacd2110120451f3f22f85156  Core-7.2.iso
+
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
 
 # starting qemu with Core ISO image as cdrom under BIOS firmware
@@ -48,7 +54,7 @@ The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UE
 ## Tree
 
 
-First, we extract files from TCL ISO image :
+First, we extract files from Core ISO image :
 
 ```make
 7z x Core-7.2.iso -oCore
@@ -95,7 +101,7 @@ Core/
 
 
 
-## BIOS side
+## Old BIOS side
 
 
 > *ISOLINUX is a boot loader for Linux/i386 that operates off ISO 9660/El Torito CD-ROMs in "no emulation" mode. This avoids the need to create an "emulation disk image" with limited space (for "floppy emulation") or compatibility problems (for "hard disk emulation").* [»](http://www.syslinux.org/wiki/index.php?title=ISOLINUX)
@@ -146,7 +152,7 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 
 
 
-## UEFI side
+## New UEFI side
 
 
 
