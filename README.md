@@ -25,7 +25,8 @@ md5sum Core-7.2.iso
 
 # modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm qemu option
 qemu -version 
-QEMU emulator version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
+QEMU emulator version 2.7.0,
+Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
 
 # starting qemu with Core ISO image as cdrom under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
@@ -128,7 +129,8 @@ Next, we build our first ISO image bootable from BIOS and test it with qemu :
 ln -s Core/isolinux/
 
 mkisofs -version 
-mkisofs 3.02a06 (x86_64-unknown-linux-gnu) Copyright (C) 1993-1997 Eric Youngdale (C) 1997-2016 Joerg Schilling
+mkisofs 3.02a06 (x86_64-unknown-linux-gnu)
+Copyright (C) 1993-1997 Eric Youngdale (C) 1997-2016 Joerg Schilling
 
 mkisofs -o Core.iso \
   -b isolinux/isolinux.bin -c isolinux/boot.cat \
