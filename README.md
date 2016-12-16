@@ -173,7 +173,7 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 > *The EFI system partition (ESP) is a partition on a data storage device (usually a hard disk drive or solid-state drive) that is used by computers adhering to the Unified Extensible Firmware Interface (UEFI). When a computer is booted, UEFI firmware loads files stored on the ESP to start installed operating systems and various utilities.* [»](https://en.wikipedia.org/wiki/EFI_system_partition)
 
 
-The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP).
+The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP) formated with FAT file system.
 
 
 
