@@ -176,6 +176,15 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP) formated with FAT file system.
 
 
+```
+ko=$( awk '{print $1}' <( du -s efi/ ))
+fat=$(( ko / 512 + (ko % 512 && 1) ))
+fat=$(( (fat / 8 + (fat % 8 && 1))*8 ))
+truncate -s $(( (4 + fat + 8 + ko * 2) * 512 )) efi.img
+mkfs.msdos -n EFI -f 1 -r 128 -R 1 -F 16 efi.img 
+```
+
+
 
 ## Links
 
