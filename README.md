@@ -115,6 +115,9 @@ Core/
 First, we override the embedded bootloader with our current one and add `ldlinux.c32` :
 
 ```make
+syslinux --version
+syslinux 6.03  Copyright 1994-2014 H. Peter Anvin et al
+
 cp /lib/syslinux/bios/isolinux.bin Core/isolinux/
 cp: overwrite 'Core/isolinux/isolinux.bin'? y
 
