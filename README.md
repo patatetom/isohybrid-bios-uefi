@@ -170,6 +170,12 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 ## New UEFI side
 
 
+> *The EFI system partition (ESP) is a partition on a data storage device (usually a hard disk drive or solid-state drive) that is used by computers adhering to the Unified Extensible Firmware Interface (UEFI). When a computer is booted, UEFI firmware loads files stored on the ESP to start installed operating systems and various utilities.* [»](https://en.wikipedia.org/wiki/EFI_system_partition)
+
+
+The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP).
+
+
 
 ## Links
 
@@ -178,4 +184,5 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 - [http://www.syslinux.org/wiki/index.php?title=Isohybrid](http://www.syslinux.org/wiki/index.php?title=Isohybrid)
 - [https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard)](https://en.wikipedia.org/wiki/El_Torito_(CD-ROM_standard))
 - [http://www.syslinux.org/wiki/index.php?title=ISOLINUX](http://www.syslinux.org/wiki/index.php?title=ISOLINUX)
+- [https://en.wikipedia.org/wiki/EFI_system_partition](https://en.wikipedia.org/wiki/EFI_system_partition)
 - [http://www.rodsbooks.com/gdisk/hybrid.html](http://www.rodsbooks.com/gdisk/hybrid.html)
