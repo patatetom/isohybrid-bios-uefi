@@ -16,13 +16,16 @@ Or how to build from Linux an ISO hybrid image bootable from BIOS or UEFI.
 [Core Linux](http://tinycorelinux.net/) 7.2, a minimal Linux operating system focusing on providing a base system using BusyBox, is provided on a small ISO image only bootable from BIOS :
 
 ```makefile
+# Core-7.2.iso is available in this repo
 stat -c%s Core-7.2.iso 
 11116544
 
 md5sum Core-7.2.iso 
 77bf8cceacd2110120451f3f22f85156  Core-7.2.iso
 
-# modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm option
+# modprobe kvm-intel or modprobe kvm-amd before using -enable-kvm qemu option
+qemu -version 
+QEMU emulator version 2.7.0, Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
 
 # starting qemu with Core ISO image as cdrom under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -snapshot
@@ -35,6 +38,7 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core-7.2.iso -snapshot
 # no bootable device :-(
 
 # nightly builds UEFI firmware can be found @ https://www.kraxel.org/repos/jenkins/edk2/
+# uefi.md (OVMF-pure-efi.fd) is available in this repo
 
 # starting qemu with Core ISO image as cdrom under UEFI firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core-7.2.iso -bios uefi.fd -snapshot
@@ -123,6 +127,9 @@ Next, we build our first ISO image bootable from BIOS and test it with qemu :
 # this symlink is just for shell complation with mkisofs ;-)
 ln -s Core/isolinux/
 
+mkisofs -version 
+mkisofs 3.02a06 (x86_64-unknown-linux-gnu) Copyright (C) 1993-1997 Eric Youngdale (C) 1997-2016 Joerg Schilling
+
 mkisofs -o Core.iso \
   -b isolinux/isolinux.bin -c isolinux/boot.cat \
   -no-emul-boot -boot-load-size 4 -boot-info-table \
@@ -137,6 +144,9 @@ qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 Now, we enhance the ISO image with the isohybrid feature to be able to boot Core from a USB flash drive :
 
 ```make
+isohybrid -version
+isohybrid version 0.12
+
 isohybrid Core.iso
 
 # starting qemu with Core ISO image as cdrom under BIOS firmware
