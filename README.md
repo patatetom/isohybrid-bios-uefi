@@ -184,11 +184,9 @@ mkdir -p Image/{efi/boot/,syslinux}
 # core.gz and vmlinux must be embedded
 cp -a Core/boot/ Image/
 
-# isolinux.cfg is renamed to syslinux.cfg
 cp Core/isolinux/{boot.msg,f*} Image/syslinux/
 cp Core/isolinux/isolinux.cfg Image/syslinux/syslinux.cfg
 
-# syslinux uefi files
 cp /lib/syslinux/efi64/ldlinux.e64 Image/syslinux/
 cp /lib/syslinux/efi64/syslinux.efi Image/efi/boot/bootx64.efi
 
@@ -208,6 +206,40 @@ Image/
     ├── ldlinux.e64
     └── syslinux.cfg
 ```
+
+
+The ESP image is now built from the previous folder :
+```make
+du -s Image/
+10796	Image/
+
+mkdir Core/efi/
+
+# 128Kb for FAT data and 128Kb for syslinux bios files
+truncate -s $((10796+128+128))k Core/efi/esp.img
+
+# can also be FAT12 or FAT32 according volumetry
+mkfs.msdos -F 16 -f 1 -M 0xF0 -r 112 -R 1 Core/efi/esp.img
+
+# mount for you the ESP image on a ready mount point
+sudo mount Core/efi/esp.img mount.point/ -o uid=you
+
+cp -av Image/* mount.point/
+sudo umount mount.point/
+
+syslinux --install --directory syslinux Core/efi/esp.img
+
+# starting qemu with ESP image under BIOS firmware
+qemu -enable-kvm -m 2048 -machine q35 -hda Core/efi/esp.img -snapshot
+
+# Core displays its start menu :-)
+
+# starting qemu with ESP image under UEFI firmware
+qemu -enable-kvm -m 2048 -machine q35 -hda Core/efi/esp.img -bios uefi.fd -snapshot
+
+# Core displays its start menu :-)
+```
+
 
 
 
