@@ -175,12 +175,36 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 
 
 The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP) formated with FAT file system.
-
-
-To adjust the size of the partition image, the content of the partition is prepared in a folder :
+To adjust the size of the ESP image, the content of this partition is prepared in a folder :
 
 ```make
-mkdir Image/
+mkdir -p Image/{efi/boot/,syslinux}
+
+# because syslinux can't access files outside of the image
+# core.gz and vmlinux must be embedded
+cp -a Core/boot/ Image/
+
+cp Core/isolinux/{boot.msg,f*} Image/syslinux/
+cp Core/isolinux/isolinux.cfg Image/syslinux/syslinux.cfg
+
+cp /lib/syslinux/efi64/ldlinux.e64 Image/syslinux/
+cp /lib/syslinux/efi64/syslinux.efi Image/efi/boot/bootx64.efi
+
+tree Image/
+Image/
+├── boot
+│   ├── core.gz
+│   └── vmlinuz
+├── efi
+│   └── boot
+│       └── bootx64.efi
+└── syslinux
+    ├── boot.msg
+    ├── f2
+    ├── f3
+    ├── f4
+    ├── ldlinux.e64
+    └── syslinux.cfg
 ```
 
 
