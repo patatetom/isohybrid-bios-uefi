@@ -62,7 +62,7 @@ The objective is now to reconstruct an ISO hybrid image bootable from BIOS or UE
 First, we extract files from Core ISO image :
 
 ```make
-7z x Core-7.2.iso -oCore
+7z x Core-7.2.iso -oCore/
 
 tree Core/
 Core/
@@ -86,6 +86,7 @@ Next, we remove unnecessry files and move `isolinux` folder at the root :
 
 ```make
 rm -rf Core/\[BOOT\]/
+rm -f Core/boot/isolinux/boot.cat
 
 mv Core/boot/isolinux/ Core/
 
@@ -95,7 +96,6 @@ Core/
 │   ├── core.gz
 │   └── vmlinuz
 └── isolinux
-    ├── boot.cat
     ├── boot.msg
     ├── f2
     ├── f3
@@ -135,9 +135,10 @@ mkisofs -version
 mkisofs 3.02a06 (x86_64-unknown-linux-gnu)
 Copyright (C) 1993-1997 Eric Youngdale (C) 1997-2016 Joerg Schilling
 
-mkisofs -o Core.iso \
-  -b isolinux/isolinux.bin -c isolinux/boot.cat \
+mkisofs -output Core.iso \
+  -eltorito-boot isolinux/isolinux.bin \
   -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-catalog isolinux/boot.cat \
   Core/
 
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
@@ -176,12 +177,10 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP) formated with FAT file system.
 
 
-```
-ko=$( awk '{print $1}' <( du -s efi/ ))
-fat=$(( ko / 512 + (ko % 512 && 1) ))
-fat=$(( (fat / 8 + (fat % 8 && 1))*8 ))
-truncate -s $(( (4 + fat + 8 + ko * 2) * 512 )) efi.img
-mkfs.msdos -n EFI -f 1 -r 128 -R 1 -F 16 efi.img 
+To adjust the size of the partition image, the content of the partition is prepared in a folder :
+
+```make
+mkdir Image/
 ```
 
 
