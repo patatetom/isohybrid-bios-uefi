@@ -184,9 +184,11 @@ mkdir -p Image/{efi/boot/,syslinux}
 # core.gz and vmlinux must be embedded
 cp -a Core/boot/ Image/
 
+# isolinux.cfg is renamed to syslinux.cfg
 cp Core/isolinux/{boot.msg,f*} Image/syslinux/
 cp Core/isolinux/isolinux.cfg Image/syslinux/syslinux.cfg
 
+# syslinux uefi files
 cp /lib/syslinux/efi64/ldlinux.e64 Image/syslinux/
 cp /lib/syslinux/efi64/syslinux.efi Image/efi/boot/bootx64.efi
 
