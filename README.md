@@ -128,16 +128,13 @@ cp /lib/syslinux/bios/ldlinux.c32 Core/isolinux/
 Next, we build our first ISO image bootable from BIOS and test it with qemu :
 
 ```make
-# this symlink is just for shell complation with mkisofs ;-)
-ln -s Core/isolinux/
-
 mkisofs -version 
 mkisofs 3.02a06 (x86_64-unknown-linux-gnu)
 Copyright (C) 1993-1997 Eric Youngdale (C) 1997-2016 Joerg Schilling
 
 mkisofs -output Core.iso \
-  -eltorito-boot isolinux/isolinux.bin \
-  -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-boot \
+  isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table \
   -eltorito-catalog isolinux/boot.cat \
   Core/
 
@@ -175,7 +172,7 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 
 
 The « new » UEFI boot is based on the presence of a specific EFI System Partition (ESP) formated with FAT file system.
-To adjust the size of the ESP image, the content of this partition is prepared in a folder :
+First, to adjust the size of the ESP image, we prepare the content of this partition in a folder :
 
 ```make
 mkdir -p Image/{efi/boot/,syslinux}
@@ -208,7 +205,8 @@ Image/
 ```
 
 
-The ESP image is now built from the previous folder :
+Next, we build the ESP image from the previous folder :
+
 ```make
 du -s Image/
 10796	Image/
@@ -227,7 +225,7 @@ sudo mount Core/efi/esp.img mount.point/ -o uid=you
 cp -av Image/* mount.point/
 sudo umount mount.point/
 
-syslinux --install --directory syslinux Core/efi/esp.img
+syslinux --install --directory syslinux/ Core/efi/esp.img
 
 # starting qemu with ESP image under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -hda Core/efi/esp.img -snapshot
@@ -238,6 +236,38 @@ qemu -enable-kvm -m 2048 -machine q35 -hda Core/efi/esp.img -snapshot
 qemu -enable-kvm -m 2048 -machine q35 -hda Core/efi/esp.img -bios uefi.fd -snapshot
 
 # Core displays its start menu :-)
+```
+
+
+Now, we insert the ESP image as a second El Torito boot entry :
+
+```make
+tree Core/
+Core/
+├── boot
+│   ├── core.gz
+│   └── vmlinuz
+├── efi
+│   └── esp.img
+└── isolinux
+    ├── boot.msg
+    ├── f2
+    ├── f3
+    ├── f4
+    ├── isolinux.bin
+    ├── isolinux.cfg
+    └── ldlinux.c32
+
+mkisofs -output Core.iso \
+  -eltorito-boot \
+  isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-alt-boot -eltorito-platform efi -eltorito-boot \
+  efi/esp.img -no-emul-boot \
+  -eltorito-catalog isolinux/boot.cat \
+  Core/
+
+isohybrid Core.iso
+
 ```
 
 
