@@ -138,6 +138,7 @@ mkisofs -output Core.iso \
   -eltorito-catalog isolinux/boot.cat \
   Core/
 
+# starting qemu with new Core ISO image as cdrom under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 
 # Core displays its start menu :-)
@@ -152,12 +153,11 @@ isohybrid version 0.12
 
 isohybrid Core.iso
 
-# starting qemu with Core ISO image as cdrom under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
 
 # Core displays its start menu :-)
 
-# starting qemu with Core ISO image as hard disk under BIOS firmware
+# starting qemu with new Core ISO image as hard disk under BIOS firmware
 qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
 
 # Core displays its start menu :-)
@@ -268,6 +268,23 @@ mkisofs -output Core.iso \
 
 isohybrid Core.iso
 
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -snapshot
+
+# Core displays its start menu :-)
+
+qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -snapshot
+
+# Core displays its start menu :-)
+
+# starting qemu with new Core ISO image as cdrom under UEFI firmware
+qemu -enable-kvm -m 2048 -machine q35 -cdrom Core.iso -bios uefi.fd -snapshot
+
+# KVM internal error :-(
+
+# starting qemu with new Core ISO image as hard disk under UEFI firmware
+qemu -enable-kvm -m 2048 -machine q35 -hda Core.iso -bios uefi.fd -snapshot
+
+# Core displays its start menu :-)
 ```
 
 
